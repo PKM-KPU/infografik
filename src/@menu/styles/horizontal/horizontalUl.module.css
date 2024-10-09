@@ -1,0 +1,57 @@
+/* .root {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  .li:not(:last-of-type) {
+    margin-inline-end: 4px;
+  }
+} */
+
+.root {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow-x: auto; /* Mengizinkan scroll horizontal */
+  white-space: nowrap; /* Mencegah teks terpotong dan turun ke bawah */
+  scroll-behavior: smooth; /* Scroll akan berjalan secara smooth */
+  position: relative;
+  padding: 0;
+  margin: 0;
+
+  /* Menghilangkan scrollbar secara default */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* Internet Explorer and Edge */
+}
+
+.root::-webkit-scrollbar {
+  display: none; /* Menghilangkan scrollbar di Chrome, Safari, Edge secara default */
+}
+
+.root:hover::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.root::-webkit-scrollbar-button {
+  display: none;
+}
+
+
+.root .li {
+  margin-inline-end: 4px;
+  overflow: visible;
+}
+
+.root .li a {
+  white-space: nowrap;
+  text-overflow: initial;
+}
