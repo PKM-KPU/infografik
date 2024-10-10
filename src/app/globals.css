@@ -131,3 +131,31 @@ code {
   background-color: rgb(var(--mui-palette-info-mainChannel) / 0.08);
   border: 0;
 }
+
+
+.dialog-content {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding: 20px; /* Add padding for spacing */
+    background-color: #fff; /* Ensure background color is white */
+  }
+
+  .content {
+    position: absolute;
+    width: 100%;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0; /* Hidden by default */
+  }
+
+  .content.active {
+    opacity: 1; /* Fully visible */
+  }
+
+  .content.inactive {
+    transform: translateX(100%); /* Slide out to the right */
+  }
+
+  .content.active + .content.inactive {
+    transform: translateX(0); /* Slide in from the right */
+  }

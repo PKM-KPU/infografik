@@ -53,7 +53,7 @@ const CardMenu = ({ pemilihTetap, tpsUmum, tpsKhusus }) => {
         paddingY: 2,
         flexDirection: { xs: 'column', sm: 'row' },
         '::-webkit-scrollbar': {
-          height: '1px'
+          height: '0'
         },
         '::-webkit-scrollbar-track': {
           backgroundColor: '#f1f1f1'

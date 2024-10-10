@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-
+import Skeleton from '@mui/material/Skeleton'
 import CardMenu from './(component)/CardMenu'
 import ReportsTab from './(component)/ReportsTab'
 import ChartUsia from './(component)/ChartUsia'
+import { Box } from '@mui/material'
 
 export default function Page() {
   const [dataUsia, setDataUsia] = useState([])
@@ -58,10 +59,6 @@ export default function Page() {
         ]
 
         setDataDisabilitas(disabilitasData)
-
-        // const { totalLakiLaki, totalPerempuan } = data
-
-        // setData([totalLakiLaki, totalPerempuan])
       } catch (error) {
         console.error('Error fetching data:', error)
       } finally {
@@ -71,24 +68,29 @@ export default function Page() {
 
     const countData = async () => {
         try {
-            const response = await fetch('/api/rekap/dpt')
+            const response = await fetch('/api/rekap/dpt');
+            const { rekap_kabupaten } = await response.json();
+            console.log({ rekap_kabupaten });
 
-            const data = await response.json()
-            const totalLakiLaki = data.reduce((acc, item) => acc + item.l, 0)
-            const totalPerempuan = data.reduce((acc, item) => acc + item.p, 0)
-            const totalPemilih = data.reduce((acc, item) => acc + item.lp, 0)
+            const totalPemilihDpt = rekap_kabupaten
+                .reduce((acc, item) => acc + item.l + item.p, 0);
+
+            console.log({ totalPemilihDpt });
+
+            const totalLakiLaki = rekap_kabupaten.reduce((acc, item) => acc + item.l, 0);
 
 
-            const countTPS = data.reduce((acc, item) => acc + item.tps, 0)
-            setTpsUmum(countTPS)
+            const totalPerempuan = rekap_kabupaten.reduce((acc, item) => acc + item.p, 0);
 
-            setData([totalLakiLaki, totalPerempuan])
+            const countTPS = rekap_kabupaten.reduce((acc, item) => acc + item.tps, 0);
 
-            setTotalPemilih(totalPemilih)
+            setTpsUmum(countTPS);
+            setData([totalLakiLaki, totalPerempuan]);
+            setTotalPemilih(totalPemilihDpt);
         } catch (error) {
-            console.error('Error counting data:', error)
+            console.error('Error counting data:', error);
         }
-    }
+    };
 
     const jumlahTpsKhusus = async () => {
         try {
@@ -111,11 +113,27 @@ export default function Page() {
   }, [])
 
   const usiaCategoriesReport = ['Gen Z', 'Millenial', 'Gen X', 'Baby Boomer', 'Pre Boomer']
-
   const disabilitasCategoriesReport = ['Tuna Daksa', 'Tuna Netra', 'Tuna Rungu', 'Tuna Grahita', 'Tuna Wicara']
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <Box>
+        <Box className='my-3'>
+          <Skeleton variant="rectangular" width="100%" height={100} />
+        </Box>
+        <Box className='flex justify-between flex-wrap my-10'>
+          <Box className='w-full md:w-[30%] mb-4 md:mb-0'>
+            <Skeleton variant="rectangular" width="100%" height={300} />
+          </Box>
+          <Box className='w-full md:w-[33%] mb-4 md:mb-0'>
+            <Skeleton variant="rectangular" width="100%" height={300} />
+          </Box>
+          <Box className='w-full md:w-[33%]'>
+            <Skeleton variant="rectangular" width="100%" height={300} />
+          </Box>
+        </Box>
+      </Box>
+    )
   }
 
   return (
